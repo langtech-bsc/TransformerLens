@@ -143,6 +143,7 @@ class HookedTransformer(HookedRootModule):
                 if "phi" in self.cfg.tokenizer_name.lower():
                     use_fast = False
                 huggingface_token = os.environ.get("HF_TOKEN", None)
+                print("[julia] Loading tokenizer...")
                 self.set_tokenizer(
                     AutoTokenizer.from_pretrained(
                         self.cfg.tokenizer_name,
@@ -150,6 +151,8 @@ class HookedTransformer(HookedRootModule):
                         trust_remote_code=self.cfg.trust_remote_code,
                         use_fast=use_fast,
                         token=huggingface_token,
+                        local_files_only=True,
+                        cache_dir=os.environ["HF_HOME"],
                     ),
                     default_padding_side=default_padding_side,
                 )

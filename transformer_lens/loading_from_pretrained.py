@@ -226,6 +226,9 @@ OFFICIAL_MODEL_NAMES = [
     "google-t5/t5-base",
     "google-t5/t5-large",
     "ai-forever/mGPT",
+
+    # [julia]
+    "projecte-aina/FLOR-1.3B",
 ]
 """Official model names for models on HuggingFace."""
 
@@ -725,9 +728,13 @@ def convert_hf_model_config(model_name: str, **kwargs):
         architecture = "GemmaForCausalLM"
     else:
         huggingface_token = os.environ.get("HF_TOKEN", None)
+
+        print("[julia] Loading config...")
         hf_config = AutoConfig.from_pretrained(
             official_model_name,
             token=huggingface_token,
+            local_files_only=True,
+                cache_dir=os.environ["HF_HOME"],
             **kwargs,
         )
         architecture = hf_config.architectures[0]
@@ -1669,10 +1676,13 @@ def get_pretrained_state_dict(
                     **kwargs,
                 )
             else:
+                print("[julia] Loading model...")
                 hf_model = AutoModelForCausalLM.from_pretrained(
                     official_model_name,
                     torch_dtype=dtype,
                     token=huggingface_token,
+                    local_files_only=True,
+                    cache_dir=os.environ["HF_HOME"],
                     **kwargs,
                 )
 

@@ -25,3 +25,5 @@ from .past_key_value_caching import (
 )
 from .HookedTransformer import HookedTransformer as EasyTransformer
 from .HookedTransformerConfig import HookedTransformerConfig as EasyTransformerConfig
+
+print("[julia] using local editable version of transformer-lens")
